@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Debug App",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "justMyCode": false,
+      "args": [
+        "run",
+        "${workspaceFolder}/app.py"
+      ]
+    },
+    {
+      "name": "Python Debugger: signal_generator",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/signal_generator.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python Debugger: portfolio_manager",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/portfolio_manager.py",
+      "console": "integratedTerminal"
+    }
+]
+}
