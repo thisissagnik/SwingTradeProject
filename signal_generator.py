@@ -28,9 +28,9 @@ def generate_signal(data):
     if pd.isna(ma20) or pd.isna(ma50) or pd.isna(ma200):
         return "Hold", price
 
-    if ma200 > ma50 > ma20:
+    if ma200 > ma50 > ma20 > price:
         return "Buy", price
-    elif ma20 > ma50 > ma200:
+    elif ma20 > ma50 > ma200 > price:
         return "Sell", price
     else:
         return "Hold", price
