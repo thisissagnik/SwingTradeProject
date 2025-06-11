@@ -46,9 +46,9 @@ def analyze_stocks(v40_list):
                 "Symbol": symbol,
                 "Signal": signal,
                 "Current Price": round(price, 2),
-                "MA_20": round(df.iloc[-1]["MA_20"].iloc[-1], 2),
-                "MA_50": round(df.iloc[-1]["MA_50"].iloc[-1], 2),
-                "MA_200": round(df.iloc[-1]["MA_200"].iloc[-1], 2),
+                "20D Moving Avg": round(df.iloc[-1]["MA_20"].iloc[-1], 2),
+                "50D Moving Avg": round(df.iloc[-1]["MA_50"].iloc[-1], 2),
+                "200D Moving Avg": round(df.iloc[-1]["MA_200"].iloc[-1], 2),
             })
     
     return pd.DataFrame(results)

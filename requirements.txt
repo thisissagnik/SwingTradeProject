@@ -1,3 +1,5 @@
 streamlit
 yfinance
 pandas
+dash 
+dash-bootstrap-components

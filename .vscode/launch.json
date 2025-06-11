@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Debug App",
+      "name": "Python: Debug Old App",
       "type": "debugpy",
       "request": "launch",
       "module": "streamlit",
@@ -11,6 +11,13 @@
         "run",
         "${workspaceFolder}/app.py"
       ]
+    },
+    {
+      "name": "Python Debugger: Run App",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.py",
+      "console": "integratedTerminal"
     },
     {
       "name": "Python Debugger: signal_generator",
@@ -24,6 +31,13 @@
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/portfolio_manager.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python Debugger: get_stocks",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/get_stocks.py",
       "console": "integratedTerminal"
     }
 ]
