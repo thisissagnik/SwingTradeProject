@@ -77,23 +77,7 @@ def mark_stock_sold(symbol):
 def reset_portfolio():
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("DROP TABLE IF EXISTS portfolio")
-        conn.commit()
-        # Recreate the table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS portfolio (
-                symbol TEXT PRIMARY KEY,
-                buy_price REAL,
-                buy_date TEXT,
-                current_price REAL,
-                days_held INTEGER,
-                status TEXT,
-                quantity INTEGER,
-                investment REAL,
-                pnl REAL,
-                return_pct REAL
-            )
-        ''')
+        cursor.execute("DELETE FROM portfolio")
         conn.commit()
 
 # FETCH all
