@@ -19,8 +19,14 @@ def get_signals(stock_list):
     return analyze_stocks(stock_list)
 
 
-def get_portfolio_df():
-    portfolio = update_portfolio()
+def get_portfolio_df(signals_data):
+    # create a dictionary from the signals(signals is a dataframe) data containing symbols as key and current prices as value
+    current_prices = {
+        row["Symbol"]: row["Current Price"] for row in signals_data if "Current Price" in row
+    }
+    
+    # Fetch the portfolio from the database
+    portfolio = update_portfolio(current_prices)
     if portfolio.empty:
         return portfolio
     # Rename columns from DB (snake_case) to UI (Title Case with spaces)
@@ -252,7 +258,9 @@ def handle_reset_portfolio(n_clicks):
     if n_clicks:
         print("Resetting portfolio...")
         reset_portfolio()
-        return dbc.Alert("Portfolio reset.", color="success"), time()
+        print("Portfolio reset complete.")
+        # Clear the portfolio update store to trigger a refresh
+        return dbc.Alert("Portfolio has been reset.", color="success", duration=3000, fade=True), time()
     return "", dash.no_update
 
 # Render Sell Stocks and Portfolio section
@@ -261,10 +269,11 @@ def handle_reset_portfolio(n_clicks):
     Output("portfolio-div", "children"),
     Input("portfolio-reset-store", "data"),
     Input("portfolio-update-store", "data"),
+    Input("signals-store", "data"),
     prevent_initial_call=False,
 )
-def render_sell_and_portfolio(_, __):
-    portfolio = get_portfolio_df()
+def render_sell_and_portfolio(_, __, signals_data):
+    portfolio = get_portfolio_df(signals_data)
     if portfolio.empty:
         sell_div = dbc.Alert("No holdings available to sell.", color="info")
         port_div = dbc.Alert("Portfolio is empty.", color="info")
@@ -305,7 +314,7 @@ def render_sell_and_portfolio(_, __):
         style_data_conditional=[
             {
                 "if": {"filter_query": '{Status} = "Sold"'},
-                "backgroundColor": "lightgray",
+                "backgroundColor": "#f2f2f2",
                 "color": "grey",
             },
             {
@@ -314,7 +323,8 @@ def render_sell_and_portfolio(_, __):
                 "color": "green",
             },
             {
-                "if": {"column_id": "P&L", "filter_query": '{P&L} contains "-"'},
+                "if": {"filter_query": '{P&L} contains "-" && {Status} = "Holding"'},
+                "backgroundColor": "#ffe6e6",
                 "color": "red",
             }
         ],
@@ -324,4 +334,4 @@ def render_sell_and_portfolio(_, __):
     return sell_div, port_table
 
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=False, use_reloader=False)

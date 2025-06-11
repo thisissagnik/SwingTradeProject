@@ -27,8 +27,8 @@ def initialize_db():
         conn.commit()
 
 # INSERT or UPSERT
-def insert_or_update_stock(symbol, buy_price, quantity, current_price, days_held=0, status="Holding"):
-    buy_date = datetime.now().strftime('%Y-%m-%d')
+def insert_or_update_stock(symbol, buy_price, quantity, current_price, days_held=0, status="Holding",buy_date=None):
+    buy_date = datetime.now().strftime('%Y-%m-%d') if buy_date is None else buy_date
     buy_price = float(buy_price)
     quantity = int(quantity)
     current_price = float(current_price)
@@ -37,6 +37,7 @@ def insert_or_update_stock(symbol, buy_price, quantity, current_price, days_held
     pnl = round(float((current_price - buy_price) * quantity), 2)
     return_pct = round(float(((current_price / buy_price) - 1) * 100), 2) if buy_price else 0.0
 
+    print(f"Inserting/Updating stock: {symbol}, Buy Price: {buy_price}, Quantity: {quantity}, Current Price: {current_price}, Days Held: {days_held}, Status: {status}")
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute('''
